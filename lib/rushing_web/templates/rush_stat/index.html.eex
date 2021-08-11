@@ -1,0 +1,96 @@
+<h1>Listing Rushstats</h1>
+
+<div class="pagination-container">
+  <div class="pagination">
+    <%= if @page > 0 do %>
+      <span class="left-arrow">
+        <a href="<%= build_link(@conn, @page-1) %>">
+          Back
+        </a>
+      </span>
+    <% end %>
+    <span class="page-num"><%= @page %></span>
+    <%= if @page < @total_pages do %>
+      <span class="right-arrow">
+        <a href="<%= build_link(@conn, @page+1)%>">
+          Next
+        </a>
+      </span>
+    <% end  %>
+  </div>
+</div>
+
+<div class="player-name-search">
+  <form method="GET">
+    <label>Player Name:</label>
+    <input type="hidden" name="page" value="0" />
+    <input type="hidden" name="sorts" value="<%= get_current_sort(@conn) %>" />
+    <input name="name" value="<%= @conn.assigns.player_name %>"/>
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player</th>
+      <th>Team</th>
+      <th>Pos</th>
+      <th>Att</th>
+      <th>Att/G</th>
+      <th><a href="<%= build_link(@conn, @page, get_sort_string(@conn, "yds"))%>">Yds</a></th>
+      <th>Avg</th>
+      <th>Yds/G</th>
+      <th><a href="<%= build_link(@conn, @page, get_sort_string(@conn, "td"))%>">TD</a></th>
+      <th><a href="<%= build_link(@conn, @page, get_sort_string(@conn, "lng"))%>">Lng</a></th>
+      <th>1st</th>
+      <th>1st %</th>
+      <th>20+</th>
+      <th>40+</th>
+      <th>Fum</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for rush_stat <- @rushstats do %>
+    <tr>
+      <td><%= rush_stat[:player] %></td>
+      <td><%= rush_stat[:team] %></td>
+      <td><%= rush_stat[:pos] %></td>
+      <td><%= rush_stat[:att] %></td>
+      <td><%= rush_stat[:att_g] %></td>
+      <td><%= rush_stat[:yds] %></td>
+      <td><%= rush_stat[:avg] %></td>
+      <td><%= rush_stat[:yds_g] %></td>
+      <td><%= rush_stat[:td] %></td>
+      <td><%= rush_stat[:lng] %></td>
+      <td><%= rush_stat[:first] %></td>
+      <td><%= rush_stat[:first_percent] %></td>
+      <td><%= rush_stat[:twenty_plus] %></td>
+      <td><%= rush_stat[:fourty_plus] %></td>
+      <td><%= rush_stat[:fumbles] %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<div class="pagination-container">
+  <div class="pagination">
+    <%= if @page > 0 do %>
+      <span class="left-arrow">
+        <a href="<%= Routes.rush_stat_path(@conn, :index) %>?page=<%="#{@page - 1}"%>">
+          Back
+        </a>
+      </span>
+    <% end %>
+    <span class="page-num"><%= @page %></span>
+    <%= if @page < @total_pages do %>
+      <span class="right-arrow">
+        <a href="<%= Routes.rush_stat_path(@conn, :index) %>?page=<%="#{@page + 1}"%>">
+          Next
+        </a>
+      </span>
+    <% end  %>
+  </div>
+</div>
