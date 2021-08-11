@@ -38,7 +38,6 @@ defmodule Rushing.Stats do
     query =
       from(p in "rushstats",
         select: [
-          player: p.player,
           att: p.att,
           att_g: p.att_g,
           avg: p.avg,
@@ -47,6 +46,7 @@ defmodule Rushing.Stats do
           fourty_plus: p.fourty_plus,
           fumbles: p.fumbles,
           lng: p.lng,
+          player: p.player,
           pos: p.pos,
           td: p.td,
           team: p.team,

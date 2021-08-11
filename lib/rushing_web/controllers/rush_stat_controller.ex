@@ -35,57 +35,6 @@ defmodule RushingWeb.RushStatController do
     |> render("index.html")
   end
 
-  def new(conn, _params) do
-    changeset = Stats.change_rush_stat(%RushStat{})
-    render(conn, "new.html", changeset: changeset)
-  end
-
-  def create(conn, %{"rush_stat" => rush_stat_params}) do
-    case Stats.create_rush_stat(rush_stat_params) do
-      {:ok, rush_stat} ->
-        conn
-        |> put_flash(:info, "Rush stat created successfully.")
-        |> redirect(to: Routes.rush_stat_path(conn, :show, rush_stat))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
-  end
-
-  def show(conn, %{"id" => id}) do
-    rush_stat = Stats.get_rush_stat!(id)
-    render(conn, "show.html", rush_stat: rush_stat)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    rush_stat = Stats.get_rush_stat!(id)
-    changeset = Stats.change_rush_stat(rush_stat)
-    render(conn, "edit.html", rush_stat: rush_stat, changeset: changeset)
-  end
-
-  def update(conn, %{"id" => id, "rush_stat" => rush_stat_params}) do
-    rush_stat = Stats.get_rush_stat!(id)
-
-    case Stats.update_rush_stat(rush_stat, rush_stat_params) do
-      {:ok, rush_stat} ->
-        conn
-        |> put_flash(:info, "Rush stat updated successfully.")
-        |> redirect(to: Routes.rush_stat_path(conn, :show, rush_stat))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", rush_stat: rush_stat, changeset: changeset)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    rush_stat = Stats.get_rush_stat!(id)
-    {:ok, _rush_stat} = Stats.delete_rush_stat(rush_stat)
-
-    conn
-    |> put_flash(:info, "Rush stat deleted successfully.")
-    |> redirect(to: Routes.rush_stat_path(conn, :index))
-  end
-
   defp decode_sorts("") do
     %{}
   end
@@ -110,12 +59,6 @@ defmodule RushingWeb.RushStatController do
         Map.put(acc, key, new_val)
       end
     )
-  end
-
-  defp encode_sorts(sort_map) do
-    Enum.map(fn {field, dir} ->
-      nil
-    end)
   end
 
   defp blank?(" ") do

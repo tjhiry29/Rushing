@@ -16,7 +16,7 @@ defmodule RushingWeb.Router do
   scope "/", RushingWeb do
     pipe_through(:browser)
 
-    resources("/", RushStatController)
+    resources("/", RushStatController, only: [:index])
   end
 
   # Other scopes may use custom stacks.
